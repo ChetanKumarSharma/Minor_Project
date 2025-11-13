@@ -1,0 +1,183 @@
+/* style_index.css */
+
+/* Import custom fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;500&display=swap');
+
+/* CSS Variables for color palette */
+:root {
+  --color-primary: #2e7d32;
+  --color-secondary: #a5d6a7;
+  --color-accent: #fbc02d;
+  --color-light: #fafafa;
+  --color-dark: #1b5e20;
+  --overlay-opacity: 0.6;
+  --transition-speed: 0.3s;
+}
+
+/* Global Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  color: var(--color-dark);
+  line-height: 1.6;
+  background: 
+    linear-gradient(rgba(30, 50, 30, var(--overlay-opacity)), rgba(30, 50, 30, var(--overlay-opacity))),
+    url('images/forest-background.jpg') center/cover no-repeat fixed;
+  animation: fadeIn 1s ease-in-out both;
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-accent);
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--color-primary);
+}
+
+/* Header & Navigation */
+header {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.6s ease-out both;
+}
+
+header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  color: var(--color-primary);
+}
+
+nav {
+  margin-top: 0.5rem;
+}
+
+nav a {
+  margin-right: 1rem;
+  font-weight: 500;
+}
+
+/* Main Content */
+main {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 0 1rem;
+}
+
+/* Section Styling */
+section {
+  background: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2.5rem;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+section:nth-child(odd) {
+  animation-delay: 0.2s;
+}
+
+section:nth-child(even) {
+  animation-delay: 0.4s;
+}
+
+section h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.8rem;
+  color: var(--color-secondary);
+  margin-bottom: 1rem;
+}
+
+section h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  margin-top: 1.5rem;
+}
+
+section p {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Lists & Items */
+ul {
+  list-style: none;
+  margin-top: 1rem;
+}
+
+ul li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-weight: 400;
+  transition: transform var(--transition-speed);
+}
+
+ul li::before {
+  content: '✔';
+  color: var(--color-accent);
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+ul li:hover {
+  transform: scale(1.02);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1.5rem 0;
+  background: var(--color-dark);
+  color: var(--color-light);
+  font-size: 0.9rem;
+  animation: fadeIn 1s ease-in both;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+

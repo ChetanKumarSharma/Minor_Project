@@ -1,0 +1,242 @@
+/* style_compare.css */
+
+/* 1. Import Custom Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@300;400;600&display=swap');
+
+/* 2. CSS Variables */
+:root {
+  --color-primary: #0277bd;
+  --color-secondary: #004c8c;
+  --color-accent: #fbc02d;
+  --color-light: #fafafa;
+  --color-dark: #263238;
+  --color-bg-texture: url('images/earth_texture.png');
+  --transition: 0.4s ease-in-out;
+  --radius: 12px;
+}
+
+/* 3. Global Resets & Body Background */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: var(--color-dark);
+  background: linear-gradient(rgba(38,50,56,0.85), rgba(38,50,56,0.85)), var(--color-bg-texture) center/cover repeat;
+  overflow-x: hidden;
+  animation: fadeIn 0.8s both;
+}
+
+/* 4. Header & Navigation */
+header {
+  position: sticky;
+  top: 0;
+  background: rgba(255,255,255,0.95);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2rem;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+}
+
+nav a {
+  font-family: 'Open Sans', sans-serif;
+  margin-left: 1.5rem;
+  color: var(--color-secondary);
+  font-weight: 600;
+  text-decoration: none;
+  transition: color var(--transition), transform var(--transition);
+}
+
+nav a:hover {
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+/* 5. Compare Section Container */
+#compare {
+  max-width: 1000px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: rgba(255,255,255,0.97);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  animation: slideInUp 0.8s both;
+}
+
+/* 6. Form & Fieldset Styling */
+#compareForm {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  align-items: end;
+  margin-bottom: 2rem;
+}
+
+#compareForm label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+#compareForm select,
+#compareForm input[type="checkbox"] {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  width: 100%;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#metricsFilter {
+  grid-column: 1 / -1;
+  background: #f5f5f5;
+  padding: 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-secondary);
+  animation: fadeIn 1.2s both;
+}
+
+#metricsFilter legend {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: var(--color-primary);
+  padding: 0 0.5rem;
+}
+
+#metricsFilter label {
+  margin-right: 1rem;
+  font-weight: 400;
+  color: var(--color-dark);
+}
+
+/* 7. Button Styling */
+#compareForm button {
+  grid-column: auto / span 2;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+  color: var(--color-light);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+#compareForm button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  background: linear-gradient(45deg, var(--color-secondary), var(--color-primary));
+}
+
+/* 8. Chart Container */
+#compareChart {
+  background: #ffffff;
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  animation: fadeIn 1s 0.5s both;
+  overflow-x: auto;
+}
+
+/* 9. Comparison Table */
+#compareTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 2rem;
+  animation: slideInUp 1s 0.7s both;
+  overflow-x: auto;
+}
+
+#compareTable th,
+#compareTable td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+#compareTable th {
+  background: var(--color-primary);
+  color: var(--color-light);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+#compareTable tr:nth-child(even) {
+  background: #fafafa;
+}
+
+#compareTable tr:hover {
+  background: var(--color-secondary);
+  color: var(--color-light);
+  transition: background var(--transition), color var(--transition);
+}
+
+/* 10. Summary Section */
+#summary {
+  background: #fdfdfd;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  font-family: 'Montserrat', sans-serif;
+  color: var(--color-secondary);
+  animation: fadeIn 1s 0.9s both;
+}
+
+#summary h3 {
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+
+/* 11. Keyframe Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 12. Responsive Adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  nav {
+    margin-top: 0.5rem;
+  }
+
+  #compareForm {
+    grid-template-columns: 1fr;
+  }
+
+  #compareForm button {
+    grid-column: 1 / -1;
+  }
+
+  #compareChart {
+    padding: 0.5rem;
+  }
+}
