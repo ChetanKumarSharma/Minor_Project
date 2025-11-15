@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ECO SMART ANALYZER – Carbon Footprint</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #0277bd;
+      --secondary: #004c8c;
+      --accent: #26c6da;
+      --light: #f4f9fd;
+      --dark: #1b262c;
+      --radius: 10px;
+      --transition: 0.3s ease;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: linear-gradient(135deg, var(--light), #e0f7fa);
+      color: var(--dark);
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--primary);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 100;
+      animation: slideDown 0.8s ease;
+    }
+
+    header h1 { margin: 0; font-size: 1.8rem; }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    section {
+      max-width: 900px;
+      margin: 2rem auto;
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      animation: fadeIn 0.8s ease;
+    }
+
+    h2 { text-align: center; color: var(--secondary); margin-bottom: 1.5rem; }
+
+    form {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      color: var(--secondary);
+    }
+
+    input {
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    button {
+      grid-column: 1 / -1;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+    }
+
+    button:hover { background: var(--secondary); transform: scale(1.05); }
+
+    #footprintResult {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: var(--accent);
+      color: white;
+      border-radius: var(--radius);
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: popIn 0.5s ease;
+    }
+
+    #historyActions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2rem;
+    }
+
+    #resetBtn {
+      background: #ef5350;
+      color: white;
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    #resetBtn:hover { background: #d32f2f; transform: scale(1.05); }
+
+    #historyTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      animation: fadeIn 1s ease;
+    }
+
+    #historyTable th, #historyTable td {
+      border: 1px solid #ddd;
+      padding: 0.75rem;
+      text-align: center;
+    }
+
+    #historyTable th { background: var(--primary); color: white; }
+
+    #chartContainer { margin-top: 2rem; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); }
+      to { transform: translateY(0); }
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>ECO SMART ANALYZER</h1>
+  <nav>
+    <a href="index3.html">Home</a>
+    <a href="compare2.html">Compare Projects</a>
+    <a href="footprint.html">Carbon Footprint</a>
+    <a href="quality.html">Air & Water Quality</a>
+  </nav>
+</header>
+
+<section id="footprint">
+  <h2>Carbon Footprint Calculator</h2>
+
+  <form id="footprintForm">
+    <label>Household Energy (kWh/year):
+      <input type="number" id="household_kwh" required>
+    </label>
+    <label>Car Travel (km/year):
+      <input type="number" id="car_km" required>
+    </label>
+    <label>Flight Time (hours/year):
+      <input type="number" id="flight_hours" required>
+    </label>
+    <label>Public Transport (km/year):
+      <input type="number" id="public_km" required>
+    </label>
+    <label>Water Bottles Purchased (per month):
+      <input type="number" id="bottles_month" required>
+    </label>
+    <label>Plastic Packets Purchased (per month):
+      <input type="number" id="packets_month" required>
+    </label>
+    <label>Online Items Purchased (per month):
+      <input type="number" id="online_month" required>
+    </label>
+    <button type="submit">Calculate Emissions</button>
+  </form>
+
+  <div id="footprintResult"></div>
+
+  <div id="chartContainer">
+    <canvas id="emissionChart"></canvas>
+  </div>
+
+  <div id="historyActions">
+    <h3>History</h3>
+    <button id="resetBtn">Reset History</button>
+  </div>
+
+  <table id="historyTable">
+    <tr><th>Date</th><th>kWh</th><th>Car (km)</th><th>Flight (hr)</th><th>Public (km)</th><th>Bottles/mo</th><th>Packets/mo</th><th>Online/mo</th><th>CO₂e (kg)</th></tr>
+  </table>
+</section>
+
+<script>
+  const EF = {
+    kwh: 0.233,
+    car_km: 0.192,
+    flight_hr: 90,
+    public_km: 0.089,
+    bottle_month: 0.25,
+    packet_month: 0.15,
+    online_month: 4.0
+  };
+
+  let chart;
+
+  function initFootprint() {
+    document.getElementById('footprintForm').addEventListener('submit', handleFootprint);
+    document.getElementById('resetBtn').addEventListener('click', resetHistory);
+    renderHistory();
+  }
+
+  function handleFootprint(e) {
+    e.preventDefault();
+
+    const h = +document.getElementById('household_kwh').value || 0;
+    const c = +document.getElementById('car_km').value || 0;
+    const f = +document.getElementById('flight_hours').value || 0;
+    const p = +document.getElementById('public_km').value || 0;
+    const b = +document.getElementById('bottles_month').value || 0;
+    const pk = +document.getElementById('packets_month').value || 0;
+    const o = +document.getElementById('online_month').value || 0;
+
+    const total =
+      h * EF.kwh +
+      c * EF.car_km +
+      f * EF.flight_hr +
+      p * EF.public_km +
+      (b * EF.bottle_month * 12) +
+      (pk * EF.packet_month * 12) +
+      (o * EF.online_month * 12);
+
+    const record = { date: new Date().toLocaleString(), h, c, f, p, b, pk, o, total: total.toFixed(2) };
+
+    const hist = JSON.parse(localStorage.getItem('fpHistory') || '[]');
+    hist.unshift(record);
+    localStorage.setItem('fpHistory', JSON.stringify(hist.slice(0, 20)));
+
+    document.getElementById('footprintResult').innerText = `Your total annual carbon footprint is ${record.total} kg CO₂e`;
+
+    renderHistory();
+    renderChart(record);
+  }
+
+  function renderHistory() {
+    const hist = JSON.parse(localStorage.getItem('fpHistory') || '[]');
+    const tbl = document.getElementById('historyTable');
+    tbl.innerHTML = `<tr><th>Date</th><th>kWh</th><th>Car (km)</th><th>Flight (hr)</th><th>Public (km)</th><th>Bottles/mo</th><th>Packets/mo</th><th>Online/mo</th><th>CO₂e (kg)</th></tr>`;
+    hist.forEach(r => {
+      tbl.innerHTML += `<tr>
+        <td>${r.date}</td>
+        <td>${r.h}</td>
+        <td>${r.c}</td>
+        <td>${r.f}</td>
+        <td>${r.p}</td>
+        <td>${r.b}</td>
+        <td>${r.pk}</td>
+        <td>${r.o}</td>
+        <td>${r.total}</td>
+      </tr>`;
+    });
+  }
+
+  function renderChart(record) {
+    const ctx = document.getElementById('emissionChart').getContext('2d');
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: [
+          'Household Energy', 'Car Travel', 'Flights',
+          'Public Transport', 'Water Bottles',
+          'Plastic Packets', 'Online Purchases'
+        ],
+        datasets: [{
+          data: [
+            record.h * EF.kwh,
+            record.c * EF.car_km,
+            record.f * EF.flight_hr,
+            record.p * EF.public_km,
+            record.b * EF.bottle_month * 12,
+            record.pk * EF.packet_month * 12,
+            record.o * EF.online_month * 12
+          ],
+          backgroundColor: [
+            '#0277bd','#66bb6a','#ef5350','#26a69a','#8e24aa','#ffa726','#29b6f6'
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: { display: true, text: 'Emission Breakdown by Source', font: { size: 18 } },
+          legend: { position: 'bottom' }
+        }
+      }
+    });
+  }
+
+  function resetHistory() {
+    if (confirm("Are you sure you want to reset your emission history?")) {
+      localStorage.removeItem('fpHistory');
+      document.getElementById('footprintResult').innerText = "History cleared!";
+      renderHistory();
+      if (chart) chart.destroy();
+    }
+  }
+
+  window.onload = initFootprint;
+</script>
+
+</body>
+</html>
